@@ -1,0 +1,37 @@
+# 先运行 docker network create back
+
+version: '3'
+services:
+    web:
+        build: 
+            context: .
+            dockerfile: Dockerfile.web
+        container_name: web
+        restart: always
+        ports:
+            - 9000:80
+        depends_on:
+            - api
+            - mongo
+
+    api:
+        build: 
+            context: .
+            dockerfile: Dockerfile.api
+        container_name: api
+        restart: always
+        depends_on:
+            - mongo
+        ports:
+            - 8000:8000
+        volumes:
+            - C:/Users/15638/Desktop/docker-vue-express-mongodb/server:/WWW/WWWROOT/
+
+    mongo:
+        image: mongo
+        ports:
+            - 27017:27017
+        container_name: mongoDB
+        # 数据挂载
+        volumes: 
+           - ./server/mongo/db:/data/db 
