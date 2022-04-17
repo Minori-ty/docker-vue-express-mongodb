@@ -1,6 +1,6 @@
-import express from 'express'
+import express, { Request, Response } from 'express'
 import mongoose from 'mongoose'
-import {Random} from 'mockjs'
+import { Random } from 'mockjs'
 
 mongoose.connect(
     'mongodb://mongo/users',
@@ -44,16 +44,16 @@ User.find()
 const app = express()
 
 //设置跨域访问
-app.all('*', (req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
-    res.header("X-Powered-By",' 3.2.1')
-    res.header("Content-Type", "application/json;charset=utf-8");
-    next();
-  });
+app.all('*', (req: Request, res: Response, next) => {
+    res.header('Access-Control-Allow-Origin', '*')
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With')
+    res.header('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS')
+    res.header('X-Powered-By', ' 3.2.1')
+    res.header('Content-Type', 'application/json;charset=utf-8')
+    next()
+})
 
-app.get('/', (req: any, res: any) => {
+app.get('/', (req: Request, res: Response) => {
     res.send(`
     <h1>volume!<h1/>
     <a href="/user">click to user and view users info</a>
@@ -61,7 +61,7 @@ app.get('/', (req: any, res: any) => {
     `)
 })
 
-app.get('/user', (req: any, res: any) => {
+app.get('/user', (req: Request, res: Response) => {
     ;(async () => {
         let data = await User.find()
         console.log(data)
@@ -69,7 +69,7 @@ app.get('/user', (req: any, res: any) => {
     })()
 })
 
-app.get('/add', async(req: any, res: any) => {
+app.get('/add', async (req: Request, res: Response) => {
     await add()
     res.send('添加成功')
 })
@@ -78,7 +78,7 @@ app.listen(8000, () => {
     console.log('http://localhost:8000/user')
 })
 
-function add(){
+function add() {
     User.create(
         {
             name: Random.cname(),

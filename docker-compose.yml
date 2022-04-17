@@ -3,7 +3,7 @@
 version: '3'
 services:
     web:
-        build: 
+        build:
             context: .
             dockerfile: Dockerfile.web
         container_name: web
@@ -15,7 +15,7 @@ services:
             - mongo
 
     api:
-        build: 
+        build:
             context: .
             dockerfile: Dockerfile.api
         container_name: api
@@ -24,14 +24,13 @@ services:
             - mongo
         ports:
             - 8000:8000
-        volumes:
-            - C:/Users/15638/Desktop/docker-vue-express-mongodb/server:/WWW/WWWROOT/
 
     mongo:
         image: mongo
+        restart: always
         ports:
             - 27017:27017
         container_name: mongoDB
         # 数据挂载
-        volumes: 
-           - ./server/mongo/db:/data/db 
+        volumes:
+            - ./server/mongo/db:/data/db

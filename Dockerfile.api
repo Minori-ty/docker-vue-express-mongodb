@@ -3,10 +3,12 @@ FROM node:16-alpine
 WORKDIR /WWW/WWWROOT/
 
 ADD server/package.json /WWW/WWWROOT/
+
 RUN npm install -g npm@8.7.0
 RUN npm i 
 
 ADD ./server/ /WWW/WWWROOT/
+RUN npm run build
 
 CMD npm run dev
 EXPOSE 8000
