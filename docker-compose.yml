@@ -27,10 +27,10 @@ services:
 
     mongo:
         image: mongo
+        container_name: mongoDB
         restart: always
         ports:
             - 27017:27017
-        container_name: mongoDB
         # 数据挂载
         volumes:
-            - ./server/mongo/db:/data/db
+            - ./mongo/db:/data/db
