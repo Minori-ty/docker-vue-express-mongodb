@@ -1,0 +1,53 @@
+# 先运行 docker network create back
+
+version: '3'
+name: fullstack
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    image: web
+    container_name: web
+    restart: always
+    ports:
+      - 9000:80
+    depends_on:
+      - api
+      - mongo
+
+  go:
+    build:
+      context: .
+      dockerfile: Dockerfile.go
+    image: go
+    container_name: go
+    restart: always
+    ports:
+      - 8080:8080
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    image: api
+    container_name: api
+    restart: always
+    ports:
+      - 8000:8000
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    container_name: mongoDB
+    restart: always
+    ports:
+      - 27017:27017
+    # 数据挂载
+    volumes:
+      - ./mongo/db:/data/db
+
+networks:
+  persist:
+    driver: bridge

@@ -1,0 +1,22 @@
+FROM node:alpine as builder
+
+WORKDIR /WWW/WWWROOT/
+
+ADD website/package.json /WWW/WWWROOT/
+
+#RUN npm install -g npm@latest --registry=https://registry.npm.taobao.org
+
+# 上传到gitlab的文件没有node_modules，所以需要安装一遍依赖
+RUN npm i --registry=https://mirrors.cloud.tencent.com/npm/
+
+ADD ./website/ /WWW/WWWROOT/
+
+RUN npm run build
+
+FROM nginx:alpine
+
+COPY --from=builder WWW/WWWROOT/dist/ /usr/share/nginx/html/
+
+WORKDIR /WWW/WWWROOT/
+EXPOSE 80
+COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
