@@ -11,7 +11,7 @@ services:
     container_name: web
     restart: always
     ports:
-      - 9000:80
+      - 9005:80
     depends_on:
       - api
       - mongo

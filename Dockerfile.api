@@ -5,7 +5,7 @@ WORKDIR /WWW/WWWROOT/
 ADD server/package.json /WWW/WWWROOT/
 
 # 上传到gitlab的文件没有node_modules，所以需要安装一遍依赖
-RUN npm i --registry=https://registry.npm.taobao.org
+RUN npm i --registry=https://mirrors.cloud.tencent.com/npm/
 
 ADD ./server/ /WWW/WWWROOT/
 RUN npm run build
